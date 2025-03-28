@@ -10,7 +10,11 @@ from selenium.webdriver.common.by import By
 BASE_URL = "https://webscraper.io/"
 HOME_URL = urljoin(BASE_URL, "test-sites/e-commerce/more/")
 
-file_names = ["phones", "computers", "home"]
+file_names = {
+    "https://webscraper.io/test-sites/e-commerce/more/phones": "phones",
+    "https://webscraper.io/test-sites/e-commerce/more/computers": "computers",
+    "https://webscraper.io/test-sites/e-commerce/more": "home",
+}
 
 
 @dataclass
@@ -59,7 +63,7 @@ def process_page(driver: webdriver, link: str, is_more: bool = True) -> None:
                 "ecomerce-items-scroll-more"
             )
     else:
-        header = file_names.pop()
+        header = file_names.get(link)
 
     products = driver.find_elements(By.CLASS_NAME, "card-body")
 
